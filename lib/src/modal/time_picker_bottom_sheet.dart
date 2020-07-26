@@ -1,0 +1,175 @@
+import 'package:bottom_sheet_duration_picker/src/utils/shift_utils.dart';
+import 'package:flutter/material.dart';
+
+// TODO: set options to select just seconds, seconds and minutes, hours seconds and minutes
+// TODO: make the dial pad fitting in the bottomSheet
+
+TextStyle _dialpadTextStyle = TextStyle();
+
+/// This function will show a modal containing a
+/// number selection to pick a [Duration].
+///
+/// The [context] is needed to tell the dialog, in which
+/// [BuildContext] it should open up.
+///
+/// You can set [dialPadTextColor] to set the color
+/// of the dialpad strings.
+///
+/// You can provide a [label] which will be displayed
+/// at the top of the picker. Optionally you can provide
+/// a [labelStyle] to customize the [label]. If no [label]
+/// is defined, nothing is showed at the top.
+///
+/// The background of the bottomSheet is set by providing
+/// the [backgroundColor] option. The default background
+/// color is [Colors.white].
+///
+/// If you want to customize the shape of the bottomSheet
+/// you can achieve this by providing the [shapeBorder].
+/// If no [shapeBorder] is provided, the bottomSheet will have
+/// slightly rounded corners.
+///
+/// Dragging to dismiss the sheet is by default disabled. If you
+/// want to enable this, set the [enableDrag] option to true.
+///
+/// Dismissing the bottomSheet by clicking anywhere else the bottomSheet
+/// itself is enabled by default. If you want to disable this behaviour
+/// set [isDismissible] to false.
+///
+/// The [showDurationPickerBottomSheet] will return a [Duration]
+/// with the picked time of the user. It is delivered via a
+/// [Future].
+Future<Duration> showDurationPickerBottomSheet({
+  BuildContext context,
+  Color dialPadTextColor = Colors.black,
+  String label,
+  TextStyle labelStyle,
+  ShapeBorder shapeBorder,
+  Color backgroundColor = Colors.white,
+  bool enableDrag = false,
+  bool isDismissible = true
+}) async {
+
+  Widget labelWidget = Container();
+  if(label != null && label.isNotEmpty) {
+    labelStyle = labelStyle ?? TextStyle(color: Colors.black, fontSize: 27.0);
+    labelWidget = Padding(
+      padding: EdgeInsets.only(top: 10.0,),
+      child: Text(label, style: labelStyle),
+    );
+  }
+
+  if (shapeBorder != null) {
+    shapeBorder = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    );
+  }
+
+  return await showModalBottomSheet<Duration>(
+      context: context,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      backgroundColor: backgroundColor,
+      shape: shapeBorder,
+      builder: (context) {
+        List<int> elements = [0, 0, 0, 0];
+        var count = 0;
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                labelWidget,
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    '${elements[3]}${elements[2]}m ${elements[1]}${elements[0]}s',
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: 12,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, childAspectRatio: 1.7),
+                    itemBuilder: (context, index) {
+                      var i = index + 1;
+                      if (i == 10) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop(Duration(
+                                seconds: (elements[1] * 10) + elements[0],
+                                minutes: (elements[3] * 10 + elements[2])));
+                          },
+                          child: Container(
+                            child: Center(
+                              child: Icon(Icons.check, color: dialPadTextColor),
+                            ),
+                          ),
+                        );
+                      } else if (i == 11) {
+                        return InkWell(
+                          onTap: () {
+                            print('0');
+                            if (count != 4) {
+                              elements = shiftRight(elements);
+                              elements[0] = 0;
+                              count++;
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            child: Center(
+                              child: Text('0',
+                                style: _dialpadTextStyle.copyWith(
+                                    color: dialPadTextColor
+                                )),
+                            ),
+                          ),
+                        );
+                      } else if (i == 12) {
+                        return InkWell(
+                          onTap: () {
+                            if (count != 0) {
+                              elements = shiftLeft(elements);
+                              count--;
+                              setState(() {});
+                            }
+                          },
+                          child: Container(
+                            child: Center(
+                              child: Icon(Icons.backspace, color: dialPadTextColor),
+                            ),
+                          ),
+                        );
+                      }
+
+                      return InkWell(
+                        onTap: () {
+                          if (count != 4) {
+                            elements = shiftRight(elements);
+                            elements[0] = i;
+                            count++;
+                            setState(() {});
+                          }
+                        },
+                        child: Container(
+                          child: Center(
+                            child: Text('$i',
+                                style: _dialpadTextStyle.copyWith(
+                                  color: dialPadTextColor
+                                )
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      });
+}
