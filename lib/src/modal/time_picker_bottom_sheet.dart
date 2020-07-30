@@ -46,6 +46,10 @@ Future<Duration> showDurationPickerBottomSheet(
     bool isDismissible = true,
     bool enableDrag = true,
     String label}) async {
+  if (themeData == null) {
+    themeData = BottomSheetDurationPickerThemeData();
+  }
+
   Widget labelWidget = Container();
   if (label != null && label.isNotEmpty) {
     labelWidget = Padding(
@@ -106,7 +110,6 @@ Future<Duration> showDurationPickerBottomSheet(
                       } else if (i == 11) {
                         return InkWell(
                             onTap: () {
-                              print('0');
                               if (count != 4) {
                                 elements = shiftRight(elements);
                                 elements[0] = 0;

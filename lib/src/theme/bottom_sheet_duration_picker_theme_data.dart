@@ -49,7 +49,7 @@ class BottomSheetDurationPickerThemeData with Diagnosticable {
 
   BottomSheetDurationPickerThemeData(
       {this.bottomSheetThemeData = const BottomSheetThemeData(),
-      this.dialpadTextStyle = const TextStyle(),
+      this.dialpadTextStyle = const TextStyle(color: Colors.black),
       this.labelStyle = const TextStyle(color: Colors.black, fontSize: 27.0),
       this.pickedDurationTextStyle =
           const TextStyle(color: Colors.black, fontSize: 35.0),
