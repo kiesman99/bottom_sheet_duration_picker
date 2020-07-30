@@ -7,7 +7,6 @@ class StandaloneExamplePage extends StatefulWidget {
 }
 
 class _StandaloneExamplePageState extends State<StandaloneExamplePage> {
-
   Duration duration = Duration.zero;
 
   @override
@@ -26,12 +25,13 @@ class _StandaloneExamplePageState extends State<StandaloneExamplePage> {
               child: Text("Pick a duration"),
               onPressed: () async {
                 var d = await showDurationPickerBottomSheet(
-                  enableDrag: true,
-                  backgroundColor: Colors.amber,
-                  dialPadTextColor: Colors.white,
-                  context: context,
-                  label: "Pick a duration"
-                );
+                    enableDrag: true,
+                    themeData: BottomSheetDurationPickerThemeData(
+                        bottomSheetThemeData:
+                            BottomSheetThemeData(backgroundColor: Colors.amber),
+                        dialpadTextStyle: TextStyle(color: Colors.white)),
+                    context: context,
+                    label: "Pick a duration");
                 setState(() {
                   // if the user drags the dialog away a null is returned
                   duration = d ?? duration;
