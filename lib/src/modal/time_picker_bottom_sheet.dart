@@ -82,7 +82,7 @@ Future<Duration> showDurationPickerBottomSheet(
                   valueListenable: controller,
                   builder: (BuildContext context, NumpadValue value, Widget child) {
                 return Text(
-                  _minutes_seconds(value),
+                  "${value.hours}h${value.minutes}m${value.seconds}s",
                   style: themeData.pickedDurationTextStyle,
                 );
               }),
@@ -93,8 +93,4 @@ Future<Duration> showDurationPickerBottomSheet(
           ],
         );
       });
-}
-
-String _minutes_seconds(NumpadValue v) {
-  return "${v.minutes}m${v.seconds}s";
 }
