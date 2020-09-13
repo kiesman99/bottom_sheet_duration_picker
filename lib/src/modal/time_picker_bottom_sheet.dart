@@ -49,7 +49,6 @@ Future<Duration> showDurationPickerBottomSheet(
   if (themeData == null) {
     themeData = BottomSheetDurationPickerThemeData();
   }
-
   Widget labelWidget = Container();
   if (label != null && label.isNotEmpty) {
     labelWidget = Padding(
@@ -69,9 +68,8 @@ Future<Duration> showDurationPickerBottomSheet(
       shape: bottomSheetTheme.shape,
       clipBehavior: bottomSheetTheme.clipBehavior,
       elevation: bottomSheetTheme.elevation,
-      builder: (context) {
+      builder: (innerContext) {
         NumpadController controller = NumpadController();
-
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -88,7 +86,7 @@ Future<Duration> showDurationPickerBottomSheet(
               }),
             ),
             Expanded(
-              child: Numpad(controller: controller, context: context),
+              child: Numpad(controller: controller, context: innerContext, themeData: themeData),
             )
           ],
         );

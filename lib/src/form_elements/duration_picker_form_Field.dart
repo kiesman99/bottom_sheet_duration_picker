@@ -1,7 +1,9 @@
+import 'package:bottom_sheet_duration_picker/src/controller/duration_picker/DurationPickerController.dart';
 import 'package:bottom_sheet_duration_picker/src/modal/time_picker_bottom_sheet.dart';
 import 'package:bottom_sheet_duration_picker/src/theme/bottom_sheet_duration_picker_theme_data.dart';
 import 'package:bottom_sheet_duration_picker/src/utils/duration_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// A string builder used to customize the string
 /// that should be displayed in the  [DurationPickerFormField]
@@ -11,6 +13,11 @@ typedef String LabelBuilder(Duration duration);
 /// If a user clicks on this field he'll get a
 /// bottomSheet in which he is able to pick a [Duration]
 class DurationPickerFormField extends FormField<Duration> {
+
+  DurationPickerController controller;
+
+  Function onTap;
+
   /// This constructor will provide a Form Field
   /// which can be used to gather a [Duration] from the
   /// user.
@@ -73,12 +80,15 @@ class DurationPickerFormField extends FormField<Duration> {
       FormFieldValidator<Duration> validator,
       Duration initialValue = Duration.zero,
       bool autovalidate = false,
-      @required String title,
       LabelBuilder labelBuilder = DurationFormatter.hours_minutes_seconds,
       bool modalEnableDrag,
       bool modalIsDismissible,
-      BottomSheetDurationPickerThemeData themeData})
-      : super(
+      BottomSheetDurationPickerThemeData themeData,
+      this.onTap,
+      this.controller,
+      @required String title,})
+      :
+        super(
             onSaved: onSaved,
             validator: validator,
             initialValue: initialValue,
@@ -90,13 +100,15 @@ class DurationPickerFormField extends FormField<Duration> {
                     title: Text(title),
                     subtitle: Text(labelBuilder.call(state.value)),
                     onTap: () async {
-                      state.didChange(await showDurationPickerBottomSheet(
-                            context: state.context,
-                            themeData: themeData,
-                            enableDrag: modalEnableDrag ?? true,
-                            isDismissible: modalIsDismissible ?? true,
-                            label: title,
-                          ) ??
+                      onTap?.call();
+                      var d = await showDurationPickerBottomSheet(
+                        context: state.context,
+                        themeData: themeData,
+                        enableDrag: modalEnableDrag ?? true,
+                        isDismissible: modalIsDismissible ?? true,
+                        label: title,
+                      );
+                      state.didChange( d ??
                           state.value);
                     },
                   ),
@@ -109,4 +121,32 @@ class DurationPickerFormField extends FormField<Duration> {
                 ],
               );
             });
+
+  @override
+  FormFieldState<Duration> createState() => _DurationPickerFormFieldState();
+}
+
+class _DurationPickerFormFieldState extends FormFieldState<Duration> {
+
+  DurationPickerController _controller;
+  DurationPickerController get _effectiveController => widget.controller ?? this._controller;
+
+  @override
+  void didChange(Duration value) {
+    super.didChange(value);
+    if (_effectiveController.value != value)
+      _effectiveController.value = value;
+  }
+
+  @override
+  DurationPickerFormField get widget => super.widget as DurationPickerFormField;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller == null) {
+      _controller = DurationPickerController.zero();
+    }
+  }
+
 }

@@ -4,7 +4,6 @@ import 'package:bottom_sheet_duration_picker/src/modal/time_picker_bottom_sheet.
 
 /// This class defines all properties to style the
 /// [BottomSheet] used in [showDurationPickerBottomSheet].
-@immutable
 class BottomSheetDurationPickerThemeData with Diagnosticable {
   /// Defines the style for the [BottomSheet] used in
   /// [showDurationPickerBottomSheet].

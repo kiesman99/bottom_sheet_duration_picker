@@ -1,11 +1,14 @@
 import 'package:bottom_sheet_duration_picker/src/controller/numpad/numpad_controller.dart';
 import 'package:flutter/material.dart';
 
+import '../../bottom_sheet_duration_picker.dart';
+
 class Numpad extends StatefulWidget {
   final NumpadController controller;
   final BuildContext context;
+  final BottomSheetDurationPickerThemeData themeData;
 
-  const Numpad({this.controller, @required this.context});
+  const Numpad({this.controller, this.themeData, @required this.context});
 
   @override
   _NumpadState createState() => _NumpadState();
@@ -15,11 +18,19 @@ class _NumpadState extends State<Numpad> {
   NumpadController _controller;
   NumpadController get _effectiveController => widget.controller ?? _controller;
 
+  BottomSheetDurationPickerThemeData _themeData;
+  BottomSheetDurationPickerThemeData get _effectiveThemeData => widget.themeData ?? _themeData;
+
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
       _controller = new NumpadController();
+    }
+    if (widget.themeData == null) {
+      _themeData = BottomSheetDurationPickerThemeData(
+        dialpadTextStyle: TextStyle(fontSize: 12, color: Colors.black)
+      );
     }
   }
 
@@ -31,7 +42,7 @@ class _NumpadState extends State<Numpad> {
             _effectiveController.insert(i);
           },
           child: Center(
-            child: Text(i.toString()),
+            child: Text(i.toString(), style: _effectiveThemeData.dialpadTextStyle),
           ),
         ),
       );
@@ -78,7 +89,7 @@ class _NumpadState extends State<Numpad> {
                     Navigator.of(widget.context).pop(_effectiveController.value.duration);
                   },
                   child: Center(
-                    child: Icon(Icons.check),
+                    child: Icon(Icons.check, color: _effectiveThemeData.dialpadLeftIconColor,),
                   ),
                 ),
               ),
@@ -88,7 +99,7 @@ class _NumpadState extends State<Numpad> {
                     _effectiveController.insert(0);
                   },
                   child: Center(
-                    child: Text("0"),
+                    child: Text("0", style: _effectiveThemeData.dialpadTextStyle),
                   ),
                 ),
               ),
@@ -98,7 +109,7 @@ class _NumpadState extends State<Numpad> {
                     _effectiveController.removeLast();
                   },
                   child: Center(
-                    child: Icon(Icons.backspace),
+                    child: Icon(Icons.backspace, color: _effectiveThemeData.dialpadRightIconColor),
                   ),
                 ),
               ),
