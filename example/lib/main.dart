@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'FormExamplePage.dart';
-import 'StandaloneExamplePage.dart';
+import 'form_example_page.dart';
+import 'standalone_example_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,13 +49,15 @@ class MyHomePage extends StatelessWidget {
             RaisedButton(
               child: Text("Modal Standalone"),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => StandaloneExamplePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => StandaloneExamplePage()));
               },
             ),
             RaisedButton(
               child: Text("Form Example"),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => FormExamplePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => FormExamplePage()));
               },
             )
           ],

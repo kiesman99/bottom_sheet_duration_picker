@@ -1,11 +1,11 @@
-import 'package:bottom_sheet_duration_picker/src/controller/numpad/numpad_controller.dart';
-import 'package:bottom_sheet_duration_picker/src/controller/numpad/numpad_value.dart';
-import 'package:bottom_sheet_duration_picker/src/theme/bottom_sheet_duration_picker_theme_data.dart';
-import 'package:bottom_sheet_duration_picker/src/widgets/numpad.dart';
 import 'package:flutter/material.dart';
 
-// TODO: set options to select just seconds, seconds and minutes, hours seconds and minutes
-// TODO: make the dial pad fitting in the bottomSheet
+import '../controller/numpad/numpad_controller.dart';
+import '../theme/bottom_sheet_duration_picker_theme_data.dart';
+import '../widgets/numpad.dart';
+
+// TODO: set options to select just seconds, seconds...
+// ...and minutes, hours seconds and minutes
 
 /// This function will show a modal containing a
 /// number selection to pick a [Duration].
@@ -69,7 +69,7 @@ Future<Duration> showDurationPickerBottomSheet(
       clipBehavior: bottomSheetTheme.clipBehavior,
       elevation: bottomSheetTheme.elevation,
       builder: (innerContext) {
-        NumpadController controller = NumpadController();
+        var controller = NumpadController();
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -78,15 +78,18 @@ Future<Duration> showDurationPickerBottomSheet(
               padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
               child: ValueListenableBuilder(
                   valueListenable: controller,
-                  builder: (BuildContext context, NumpadValue value, Widget child) {
-                return Text(
-                  "${value.hours}h${value.minutes}m${value.seconds}s",
-                  style: themeData.pickedDurationTextStyle,
-                );
-              }),
+                  builder: (context, value, child) {
+                    return Text(
+                      "${value.hours}h${value.minutes}m${value.seconds}s",
+                      style: themeData.pickedDurationTextStyle,
+                    );
+                  }),
             ),
             Expanded(
-              child: Numpad(controller: controller, context: innerContext, themeData: themeData),
+              child: Numpad(
+                  controller: controller,
+                  context: innerContext,
+                  themeData: themeData),
             )
           ],
         );

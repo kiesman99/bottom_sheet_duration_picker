@@ -1,6 +1,7 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
-import '../../bottom_sheet_duration_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
+import '../../bottom_sheet_duration_picker.dart';
 
 class _DurationPickerHookCreator {
   const _DurationPickerHookCreator();
@@ -18,7 +19,8 @@ class _DurationPickerHookCreator {
 ///
 /// To use a [DurationPickerController] with an optional initial duration, use
 /// ```dart
-/// final controller = useDurationPickerController(duration: const Duration(seconds: 15));
+/// final controller =
+///   useDurationPickerController(duration: const Duration(seconds: 15));
 /// ```
 ///
 /// Changing the duration value after the widget has been built has no
@@ -42,21 +44,18 @@ class _DurationPickerHookCreator {
 const useDurationPickerController = _DurationPickerHookCreator();
 
 class _DurationPickerControllerHook extends Hook<DurationPickerController> {
-
   final Duration initialValue;
 
-  _DurationPickerControllerHook(
-    this.initialValue,
-    [List<Object> keys]
-  ) : super(keys: keys);
+  _DurationPickerControllerHook(this.initialValue, [List<Object> keys])
+      : super(keys: keys);
 
   @override
-  _DurationPickerControllerHookState createState() => _DurationPickerControllerHookState();
-
+  _DurationPickerControllerHookState createState() =>
+      _DurationPickerControllerHookState();
 }
 
-class _DurationPickerControllerHookState extends HookState<DurationPickerController, _DurationPickerControllerHook> {
-
+class _DurationPickerControllerHookState
+    extends HookState<DurationPickerController, _DurationPickerControllerHook> {
   DurationPickerController _controller;
 
   @override

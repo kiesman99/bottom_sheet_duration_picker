@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:bottom_sheet_duration_picker/src/modal/time_picker_bottom_sheet.dart';
+import '../modal/time_picker_bottom_sheet.dart';
 
+/// {@template bottom_sheet_duration_picker_theme_data}
 /// This class defines all properties to style the
 /// [BottomSheet] used in [showDurationPickerBottomSheet].
+/// {@endtemplate}
 class BottomSheetDurationPickerThemeData with Diagnosticable {
   /// Defines the style for the [BottomSheet] used in
   /// [showDurationPickerBottomSheet].
@@ -46,6 +48,7 @@ class BottomSheetDurationPickerThemeData with Diagnosticable {
   /// ```
   final TextStyle pickedDurationTextStyle;
 
+  /// {@macro bottom_sheet_duration_picker_theme_data}
   BottomSheetDurationPickerThemeData(
       {this.bottomSheetThemeData = const BottomSheetThemeData(),
       this.dialpadTextStyle = const TextStyle(color: Colors.black),
@@ -58,6 +61,8 @@ class BottomSheetDurationPickerThemeData with Diagnosticable {
     _dialpadRightIconColor = dialpadRightIconColor ?? dialpadTextStyle.color;
   }
 
+  /// This function copies the given [BottomSheetDurationPickerThemeData] and
+  /// replaces it's values with the one's given in the parameters.
   BottomSheetDurationPickerThemeData copyWith(
       {BottomSheetThemeData bottomSheetThemeData,
       TextStyle dialpadTextStyle,
