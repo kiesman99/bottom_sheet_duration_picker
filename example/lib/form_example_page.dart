@@ -21,23 +21,23 @@ class _FormExamplePageState extends State<FormExamplePage> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(15.0),
-                child: Text("This Form field will show an error if the given duration is more than 50 minutes."),
+                child: Text("This Form field will show an error if the "
+                    "given duration is more than 50 minutes."),
               ),
               DurationPickerFormField(
                 title: "Duration",
                 autovalidate: true,
                 initialValue: Duration(minutes: 5),
                 // ignore: missing_return
-                validator: (Duration d) {
-                  if (
-                    d.inMinutes.remainder(60) > 50 ||
-                        (d.inMinutes.remainder(60) >= 50 && d.inSeconds.remainder(60) > 0)
-                  ) {
+                validator: (duration) {
+                  if (duration.inMinutes.remainder(60) > 50 ||
+                      (duration.inMinutes.remainder(60) >= 50 &&
+                          duration.inSeconds.remainder(60) > 0)) {
                     return "More than 50 minutes";
                   }
                 },
-                labelBuilder: (Duration d) {
-                  return "${d.inMilliseconds}ms";
+                labelBuilder: (duration) {
+                  return "${duration.inMilliseconds}ms";
                 },
               )
             ],

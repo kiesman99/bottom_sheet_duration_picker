@@ -2,7 +2,6 @@ import 'package:bottom_sheet_duration_picker/src/utils/duration_formatter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-
   group('DurationFormatter.seconds', () {
     void secondsTest(Duration duration, String wanted) {
       expect(DurationFormatter.seconds(duration), wanted);
@@ -27,7 +26,7 @@ void main() {
 
   group('DurationFormatter.seconds_minutes', () {
     void secondsMinutesTest(Duration duration, String wanted) {
-      expect(DurationFormatter.seconds_minutes(duration), wanted);
+      expect(DurationFormatter.secondsMinutes(duration), wanted);
     }
 
     test('duration zero', () {
@@ -35,7 +34,8 @@ void main() {
     });
 
     test('duration with hh:mm:ss', () {
-      secondsMinutesTest(Duration(hours: 20, minutes: 19, seconds: 17), "19m17s");
+      secondsMinutesTest(
+          Duration(hours: 20, minutes: 19, seconds: 17), "19m17s");
     });
 
     test('duration with minutes > 60', () {
@@ -71,7 +71,7 @@ void main() {
 
   group('DurationFormatter.minutes_hours', () {
     void minutesHoursTest(Duration duration, String wanted) {
-      expect(DurationFormatter.minutes_hours(duration), wanted);
+      expect(DurationFormatter.minutesHours(duration), wanted);
     }
 
     test('duration zero', () {
@@ -114,8 +114,8 @@ void main() {
   });
 
   group('DurationFormatter.hours_minutes_seconds', () {
-    void hoursMinutesSecondsTest(Duration d, String s){
-      expect(DurationFormatter.hours_minutes_seconds(d), s);
+    void hoursMinutesSecondsTest(Duration d, String s) {
+      expect(DurationFormatter.hoursMinutesSeconds(d), s);
     }
 
     test('duration zero', () {
@@ -123,7 +123,8 @@ void main() {
     });
 
     test('duration with hh:mm:ss', () {
-      hoursMinutesSecondsTest(Duration(hours: 20, minutes: 19, seconds: 17), "20h19m17s");
+      hoursMinutesSecondsTest(
+          Duration(hours: 20, minutes: 19, seconds: 17), "20h19m17s");
     });
 
     test('duration with minutes > 60', () {
@@ -134,5 +135,4 @@ void main() {
       hoursMinutesSecondsTest(Duration(days: 2), "00h00m00s");
     });
   });
-
 }
