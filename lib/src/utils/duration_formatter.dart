@@ -4,7 +4,6 @@
 /// They are mainly used in [DurationPickerFormField]
 /// to select which format should be used as a label.
 class DurationFormatter {
-
   /// This function will return the [duration] in
   /// form of "00s" where 00 is replaced with the
   /// actual seconds.
@@ -30,7 +29,7 @@ class DurationFormatter {
   /// minutes.
   /// 122 seconds instead would print 02m02s, because
   /// 122 seconds are 02 minutes and 02 seconds.
-  static String seconds_minutes(Duration duration) {
+  static String secondsMinutes(Duration duration) {
     var str = StringBuffer();
     str.write("${_twoDigits(duration.inMinutes.remainder(60))}m");
     str.write("${_twoDigits(duration.inSeconds.remainder(60))}s");
@@ -62,7 +61,7 @@ class DurationFormatter {
   /// hours.
   /// 127 minutes instead would print 02h07m, because
   /// 127 minutes are 02 hours and 07 minutes.
-  static String minutes_hours(Duration duration) {
+  static String minutesHours(Duration duration) {
     var str = StringBuffer();
     str.write("${_twoDigits(duration.inHours.remainder(24))}h");
     str.write("${_twoDigits(duration.inMinutes.remainder(60))}m");
@@ -94,10 +93,11 @@ class DurationFormatter {
   /// hours.
   /// 127 minutes instead would print 02h07m00s, because
   /// 127 minutes are 02 hours and 07 minutes and 0 seconds.
-  static String hours_minutes_seconds(Duration duration) {
-    String twoDigitMinutes = _twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = _twoDigits(duration.inSeconds.remainder(60));
-    return "${_twoDigits(duration.inHours.remainder(24))}h${twoDigitMinutes}m${twoDigitSeconds}s";
+  static String hoursMinutesSeconds(Duration duration) {
+    var twoDigitMinutes = _twoDigits(duration.inMinutes.remainder(60));
+    var twoDigitSeconds = _twoDigits(duration.inSeconds.remainder(60));
+    return "${_twoDigits(duration.inHours.remainder(24))}"
+        "h${twoDigitMinutes}m${twoDigitSeconds}s";
   }
 
   /// This function will turn a integer into a two integer string.
@@ -112,5 +112,4 @@ class DurationFormatter {
   /// 7 => 07
   /// 879 => 879
   static String _twoDigits(int n) => n.toString().padLeft(2, "0");
-
 }

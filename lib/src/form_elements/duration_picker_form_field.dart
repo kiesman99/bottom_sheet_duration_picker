@@ -1,22 +1,25 @@
-import 'package:bottom_sheet_duration_picker/src/controller/duration_picker/DurationPickerController.dart';
-import 'package:bottom_sheet_duration_picker/src/modal/time_picker_bottom_sheet.dart';
-import 'package:bottom_sheet_duration_picker/src/theme/bottom_sheet_duration_picker_theme_data.dart';
-import 'package:bottom_sheet_duration_picker/src/utils/duration_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import '../controller/duration_picker/duration_picker_controller.dart';
+import '../modal/time_picker_bottom_sheet.dart';
+import '../theme/bottom_sheet_duration_picker_theme_data.dart';
+import '../utils/duration_formatter.dart';
 
 /// A string builder used to customize the string
 /// that should be displayed in the  [DurationPickerFormField]
-typedef String LabelBuilder(Duration duration);
+typedef LabelBuilder = String Function(Duration duration);
 
 /// The Form Field that should be used in a [Form].
 /// If a user clicks on this field he'll get a
 /// bottomSheet in which he is able to pick a [Duration]
 class DurationPickerFormField extends FormField<Duration> {
+  /// The controller that holds the value entered
+  /// in the duration picker.
+  final DurationPickerController controller;
 
-  DurationPickerController controller;
-
-  Function onTap;
+  /// Can be used to insert behavior that happens
+  /// **right before** the duration picker bottom sheet is called.
+  final Function onTap;
 
   /// This constructor will provide a Form Field
   /// which can be used to gather a [Duration] from the
@@ -75,25 +78,24 @@ class DurationPickerFormField extends FormField<Duration> {
   ///
   /// The title of the bottom sheet is inherited by the
   /// [DurationPickerFormField] [title] option.
-  DurationPickerFormField(
-      {FormFieldSetter<Duration> onSaved,
-      FormFieldValidator<Duration> validator,
-      Duration initialValue = Duration.zero,
-      bool autovalidate = false,
-      LabelBuilder labelBuilder = DurationFormatter.hours_minutes_seconds,
-      bool modalEnableDrag,
-      bool modalIsDismissible,
-      BottomSheetDurationPickerThemeData themeData,
-      this.onTap,
-      this.controller,
-      @required String title,})
-      :
-        super(
+  DurationPickerFormField({
+    FormFieldSetter<Duration> onSaved,
+    FormFieldValidator<Duration> validator,
+    Duration initialValue = Duration.zero,
+    bool autovalidate,
+    LabelBuilder labelBuilder = DurationFormatter.hoursMinutesSeconds,
+    bool modalEnableDrag,
+    bool modalIsDismissible,
+    BottomSheetDurationPickerThemeData themeData,
+    this.onTap,
+    this.controller,
+    @required String title,
+  }) : super(
             onSaved: onSaved,
             validator: validator,
             initialValue: initialValue,
             autovalidate: autovalidate,
-            builder: (FormFieldState<Duration> state) {
+            builder: (state) {
               return Column(
                 children: <Widget>[
                   ListTile(
@@ -108,8 +110,7 @@ class DurationPickerFormField extends FormField<Duration> {
                         isDismissible: modalIsDismissible ?? true,
                         label: title,
                       );
-                      state.didChange( d ??
-                          state.value);
+                      state.didChange(d ?? state.value);
                     },
                   ),
                   state.hasError
@@ -127,15 +128,14 @@ class DurationPickerFormField extends FormField<Duration> {
 }
 
 class _DurationPickerFormFieldState extends FormFieldState<Duration> {
-
   DurationPickerController _controller;
-  DurationPickerController get _effectiveController => widget.controller ?? this._controller;
+  DurationPickerController get _effectiveController =>
+      widget.controller ?? _controller;
 
   @override
   void didChange(Duration value) {
     super.didChange(value);
-    if (_effectiveController.value != value)
-      _effectiveController.value = value;
+    if (_effectiveController.value != value) _effectiveController.value = value;
   }
 
   @override
@@ -148,5 +148,4 @@ class _DurationPickerFormFieldState extends FormFieldState<Duration> {
       _controller = DurationPickerController.zero();
     }
   }
-
 }

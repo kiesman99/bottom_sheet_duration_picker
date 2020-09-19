@@ -5,24 +5,23 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('Initialisation and getting duration', () {
     test('NumpadController initialized', () {
-      NumpadController controller = NumpadController();
+      var controller = NumpadController();
       expect(controller.value.duration, Duration.zero);
     });
 
     test('given duration zero', () {
-      NumpadController controller1 =
+      var controller1 =
           NumpadController.initial(value: NumpadValue(digits: ""));
-      NumpadController controller2 =
+      var controller2 =
           NumpadController.initial(value: NumpadValue(digits: "000000"));
-      NumpadController controller3 =
-          NumpadController.initial(value: NumpadValue.empty());
+      var controller3 = NumpadController.initial(value: NumpadValue.empty());
       expect(controller1.value.duration, Duration.zero);
       expect(controller2.value.duration, Duration.zero);
       expect(controller3.value.duration, Duration.zero);
     });
 
     void _givenDurationMatchesGetDuration(String digits, Duration d) {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: digits));
       expect(controller.value.duration, d);
     }
@@ -46,31 +45,31 @@ void main() {
     });
 
     test('duration seconds bigger than 60', () {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: "88"));
       expect(controller.value.duration, Duration(minutes: 1, seconds: 28));
     });
 
     test('duration minutes bigger than 60', () {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: "7200"));
       expect(controller.value.duration, Duration(hours: 1, minutes: 12));
     });
 
     test('duration hours bigger than 24', () {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: "720000"));
       expect(controller.value.duration, Duration(hours: 72));
     });
 
     test('duration is exact 24 hours', () {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: "240000"));
       expect(controller.value.duration, Duration(hours: 24));
     });
 
     test('duration seconds, minutes bigger than 60, hours bigger 24', () {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: "487277"));
       expect(controller.value.duration,
           Duration(hours: 48, minutes: 72, seconds: 77));
@@ -79,7 +78,7 @@ void main() {
 
   group('inserting a number', () {
     test('insert number higher than 9', () {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: "5500"));
 
       expect(() {
@@ -89,7 +88,7 @@ void main() {
 
     void _expectInsert(
         {String initial, int insert, Duration expectedDuration}) {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: initial));
       controller.insert(insert);
       expect(controller.value.duration, equals(expectedDuration));
@@ -138,7 +137,7 @@ void main() {
 
   group('remove last element', () {
     void _expectRemove({String initial, Duration expectedDuration}) {
-      NumpadController controller =
+      var controller =
           NumpadController.initial(value: NumpadValue(digits: initial));
       controller.removeLast();
       expect(controller.value.duration, equals(expectedDuration));
@@ -160,7 +159,8 @@ void main() {
           initial: "400", expectedDuration: const Duration(seconds: 40));
 
       _expectRemove(
-          initial: "4700", expectedDuration: const Duration(minutes: 5, seconds: 10));
+          initial: "4700",
+          expectedDuration: const Duration(minutes: 5, seconds: 10));
     });
 
     test('remove with set hours', () {
