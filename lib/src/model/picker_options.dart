@@ -1,4 +1,4 @@
-import '../../bottom_sheet_duration_picker.dart';
+import '../../picky.dart';
 
 /// This class is used to choose what
 /// should be picked in [showDurationPickerBottomSheet]

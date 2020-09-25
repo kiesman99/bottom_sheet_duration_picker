@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../bottom_sheet_duration_picker.dart';
+import '../../picky.dart';
 import '../controller/numpad/numpad_controller.dart';
 
 /// {@template numpad}

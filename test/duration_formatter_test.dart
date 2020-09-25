@@ -1,5 +1,5 @@
-import 'package:bottom_sheet_duration_picker/src/utils/duration_formatter.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:picky/src/utils/duration_formatter.dart';
 
 void main() {
   group('DurationFormatter.seconds', () {

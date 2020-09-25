@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bottom_sheet_duration_picker/src/extensions/duration_extension.dart';
+import 'package:picky/src/extensions/duration_extension.dart';
 
 void main() {
   group('copyWith extension', () {
