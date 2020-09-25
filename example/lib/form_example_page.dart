@@ -1,5 +1,5 @@
-import 'package:bottom_sheet_duration_picker/bottom_sheet_duration_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:picky/picky.dart';
 
 class FormExamplePage extends StatefulWidget {
   @override

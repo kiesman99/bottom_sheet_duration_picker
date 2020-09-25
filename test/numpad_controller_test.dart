@@ -1,6 +1,6 @@
-import 'package:bottom_sheet_duration_picker/src/controller/numpad/numpad_controller.dart';
-import 'package:bottom_sheet_duration_picker/src/controller/numpad/numpad_value.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:picky/src/controller/numpad/numpad_controller.dart';
+import 'package:picky/src/controller/numpad/numpad_value.dart';
 
 void main() {
   group('Initialisation and getting duration', () {

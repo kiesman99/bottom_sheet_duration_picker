@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../bottom_sheet_duration_picker.dart';
+import '../../picky.dart';
 
 class _DurationPickerHookCreator {
   const _DurationPickerHookCreator();
