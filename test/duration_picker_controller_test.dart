@@ -1,4 +1,4 @@
-import 'package:bottom_sheet_duration_picker/bottom_sheet_duration_picker.dart';
+import 'package:picky/picky.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

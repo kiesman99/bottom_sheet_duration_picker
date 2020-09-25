@@ -1,5 +1,5 @@
-import 'package:bottom_sheet_duration_picker/src/controller/numpad/numpad_controller.dart';
-import 'package:bottom_sheet_duration_picker/src/widgets/numpad.dart';
+import 'package:picky/src/controller/numpad/numpad_controller.dart';
+import 'package:picky/src/widgets/numpad.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
