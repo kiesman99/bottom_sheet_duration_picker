@@ -145,7 +145,7 @@ class _DurationPickerFormFieldState extends FormFieldState<Duration> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DurationPickerController.zero();
+      _controller = DurationPickerController();
     }
   }
 }

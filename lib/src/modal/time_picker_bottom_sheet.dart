@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../controller/numpad/numpad_controller.dart';
+import '../../picky.dart';
 import '../theme/bottom_sheet_duration_picker_theme_data.dart';
 import '../widgets/numpad.dart';
 
@@ -69,7 +69,7 @@ Future<Duration> showDurationPickerBottomSheet(
       clipBehavior: bottomSheetTheme.clipBehavior,
       elevation: bottomSheetTheme.elevation,
       builder: (innerContext) {
-        var controller = NumpadController();
+        var controller = DurationPickerController();
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[

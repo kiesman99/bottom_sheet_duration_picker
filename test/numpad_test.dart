@@ -1,25 +1,27 @@
-import 'package:picky/src/controller/numpad/numpad_controller.dart';
-import 'package:picky/src/widgets/numpad.dart';
 import 'package:flutter/material.dart';
-import 'package:mockito/mockito.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:picky/picky.dart';
+import 'package:picky/src/widgets/numpad.dart';
 
 class MockBuildContext extends Mock implements BuildContext {}
 
-class MockNumpadController extends Mock implements NumpadController {}
-
 void main() {
-  Widget scaffoldContainer({Widget child}) {
-    return MaterialApp(
-      home: Scaffold(
-        body: child,
-      ),
-    );
-  }
+  DurationPickerController controller;
+  MockBuildContext mockContext;
+  Widget testNumpad;
 
-  testWidgets('Numpad has 12 grid items', (tester) async {
-    var context = MockBuildContext();
-    await tester.pumpWidget(scaffoldContainer(child: Numpad(context: context)));
+  setUp(() {
+    controller = DurationPickerController();
+    mockContext = MockBuildContext();
+    testNumpad = _TestWrapper(
+      child: Numpad(context: mockContext, controller: controller),
+    );
+  });
+
+  testWidgets('every button is provided in numpad', (tester) async {
+    await tester.pumpWidget(testNumpad);
     final button1Finder = find.text('1');
     final button2Finder = find.text('2');
     final button3Finder = find.text('3');
@@ -30,6 +32,8 @@ void main() {
     final button8Finder = find.text('8');
     final button9Finder = find.text('9');
     final button0Finder = find.text('0');
+    final buttonDeleteFinder = find.byIcon(Icons.backspace);
+    final buttonCheckFinder = find.byIcon(Icons.check);
 
     expect(button1Finder, findsOneWidget);
     expect(button2Finder, findsOneWidget);
@@ -41,19 +45,77 @@ void main() {
     expect(button8Finder, findsOneWidget);
     expect(button9Finder, findsOneWidget);
     expect(button0Finder, findsOneWidget);
+    expect(buttonDeleteFinder, findsOneWidget);
+    expect(buttonCheckFinder, findsOneWidget);
   });
 
-  testWidgets('controller gets changed when fields are pressed',
-      (tester) async {
-    var context = MockBuildContext();
-    var controller = NumpadController();
-    await tester.pumpWidget(scaffoldContainer(
-        child: Numpad(context: context, controller: controller)));
+  group('click on numpad elements', () {
+    testWidgets('Clicking on one Tiles changes controller value',
+        (tester) async {
+      await tester.pumpWidget(testNumpad);
+      expect(controller.value, equals(Duration.zero));
 
-    expect(controller.duration, Duration.zero);
-    final button1Finder = find.text("1");
-    await tester.tap(button1Finder);
-    await tester.pump();
-    expect(controller.duration, equals(Duration(seconds: 1)));
+      final button1Finder = find.text("1");
+      await tester.tap(button1Finder);
+      await tester.pump();
+      expect(controller.value, equals(Duration(seconds: 1)));
+    });
+
+    testWidgets('Clicking multiple Tiles changes controller value',
+        (tester) async {
+      await tester.pumpWidget(testNumpad);
+      expect(controller.value, equals(Duration.zero));
+
+      final button1Finder = find.text("1");
+      final button4Finder = find.text("4");
+      final button7Finder = find.text("7");
+      await tester.tap(button1Finder);
+      await tester.tap(button4Finder);
+      await tester.tap(button7Finder);
+      await tester.pump();
+      expect(controller.value, equals(Duration(minutes: 1, seconds: 47)));
+    });
+
+    testWidgets('Pressing backspace does delete last number', (tester) async {
+      await tester.pumpWidget(testNumpad);
+      expect(controller.value, equals(Duration.zero));
+
+      final button1Finder = find.text("1");
+      final button4Finder = find.text("4");
+      final button7Finder = find.text("7");
+      final buttonDeleteFinder = find.byIcon(Icons.backspace);
+      await tester.tap(button1Finder);
+      await tester.tap(button4Finder);
+      await tester.tap(buttonDeleteFinder);
+      await tester.tap(button7Finder);
+      await tester.pump();
+      expect(controller.value, equals(Duration(seconds: 17)));
+    });
   });
+
+  group('send key events through keyboard', () {
+    testWidgets('entering one number does change controller value',
+        (tester) async {
+      await tester.pumpWidget(testNumpad);
+      expect(controller.value, equals(Duration.zero));
+      await tester.sendKeyEvent(LogicalKeyboardKey.digit1);
+      await tester.pump();
+      expect(controller.value, equals(Duration(seconds: 1)));
+    });
+  });
+}
+
+class _TestWrapper extends StatelessWidget {
+  _TestWrapper({this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: child,
+      ),
+    );
+  }
 }

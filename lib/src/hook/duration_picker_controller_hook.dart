@@ -63,7 +63,7 @@ class _DurationPickerControllerHookState
     if (hook.initialValue != null) {
       _controller = DurationPickerController(hook.initialValue);
     } else {
-      _controller = DurationPickerController.zero();
+      _controller = DurationPickerController();
     }
   }
 
