@@ -3,18 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../picky.dart';
 
-class _DurationPickerHookCreator {
-  const _DurationPickerHookCreator();
-
-  /// Creates a [DurationPickerController] that will be disposed automatically.
-  ///
-  /// The [duration] parameter can be used to set the initial value of the
-  /// controller.
-  DurationPickerController call({Duration duration, List<Object> keys}) {
-    return Hook.use(_DurationPickerControllerHook(duration, keys));
-  }
-}
-
 /// Creates a [DurationPickerController], with an optional initial duration.
 ///
 /// To use a [DurationPickerController] with an optional initial duration, use
@@ -42,6 +30,18 @@ class _DurationPickerHookCreator {
 /// See also:
 /// - [DurationPickerController], which this hook creates.
 const useDurationPickerController = _DurationPickerHookCreator();
+
+class _DurationPickerHookCreator {
+  const _DurationPickerHookCreator();
+
+  /// Creates a [DurationPickerController] that will be disposed automatically.
+  ///
+  /// The [duration] parameter can be used to set the initial value of the
+  /// controller.
+  DurationPickerController call({Duration duration, List<Object> keys}) {
+    return Hook.use(_DurationPickerControllerHook(duration, keys));
+  }
+}
 
 class _DurationPickerControllerHook extends Hook<DurationPickerController> {
   final Duration initialValue;
