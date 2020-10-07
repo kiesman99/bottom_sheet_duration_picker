@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../picky.dart';
+import '../controller/duration_picker_controller.dart';
 
 /// {@template numpad}
 /// This Widget is the actual Numpad that is used to enter the duration.

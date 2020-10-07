@@ -26,7 +26,7 @@ class _FormExamplePageState extends State<FormExamplePage> {
               ),
               DurationPickerFormField(
                 title: "Duration",
-                autovalidate: true,
+                autovalidateMode: AutovalidateMode.always,
                 initialValue: Duration(minutes: 5),
                 // ignore: missing_return
                 validator: (duration) {

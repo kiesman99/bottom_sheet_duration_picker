@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../widgets/numpad.dart';
+import '../widgets/numpad.dart';
 
 /// {@template duration_picker_controller}
 /// The Controller for the bottom_sheet_duration_picker.
@@ -42,6 +42,7 @@ class DurationPickerController extends ValueNotifier<Duration> {
   ///
   /// Inserting [NumpadKey.delete] will result in deleting in the last recently
   /// added number
+  @protected
   @visibleForTesting
   void onKey(NumpadKey key) {
     if (key == NumpadKey.delete) {

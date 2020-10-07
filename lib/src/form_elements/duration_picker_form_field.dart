@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../controller/duration_picker_controller.dart';
 
-import '../controller/duration_picker/duration_picker_controller.dart';
 import '../modal/time_picker_bottom_sheet.dart';
 import '../theme/bottom_sheet_duration_picker_theme_data.dart';
 import '../utils/duration_formatter.dart';
@@ -82,7 +82,7 @@ class DurationPickerFormField extends FormField<Duration> {
     FormFieldSetter<Duration> onSaved,
     FormFieldValidator<Duration> validator,
     Duration initialValue = Duration.zero,
-    bool autovalidate,
+    AutovalidateMode autovalidateMode,
     LabelBuilder labelBuilder = DurationFormatter.hoursMinutesSeconds,
     bool modalEnableDrag,
     bool modalIsDismissible,
@@ -94,7 +94,7 @@ class DurationPickerFormField extends FormField<Duration> {
             onSaved: onSaved,
             validator: validator,
             initialValue: initialValue,
-            autovalidate: autovalidate,
+            autovalidateMode: autovalidateMode,
             builder: (state) {
               return Column(
                 children: <Widget>[
