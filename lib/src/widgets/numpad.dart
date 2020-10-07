@@ -26,6 +26,7 @@ class Numpad extends StatefulWidget {
   /// The ThemeData that defines the visual behavior of the [Numpad]
   final BottomSheetDurationPickerThemeData themeData;
 
+  /// The [FocusNode] that is used by by the keyboard.
   final FocusNode focusNode;
 
   /// {@macro numpad}
@@ -172,16 +173,38 @@ class _NumpadState extends State<Numpad> {
   }
 }
 
+/// The keys that can be pressed in the numpad
 enum NumpadKey {
+  /// Resembles digit 0
   num0,
+
+  /// Resembles digit 1
   num1,
+
+  /// Resembles digit 2
   num2,
+
+  /// Resembles digit 3
   num3,
+
+  /// Resembles digit 4
   num4,
+
+  /// Resembles digit 5
   num5,
+
+  /// Resembles digit 6
   num6,
+
+  /// Resembles digit 7
   num7,
+
+  /// Resembles digit 8
   num8,
+
+  /// Resembles digit 9
   num9,
+
+  /// Resembles the backspace key
   delete,
 }

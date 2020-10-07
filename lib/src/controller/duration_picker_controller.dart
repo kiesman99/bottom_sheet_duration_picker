@@ -42,8 +42,6 @@ class DurationPickerController extends ValueNotifier<Duration> {
   ///
   /// Inserting [NumpadKey.delete] will result in deleting in the last recently
   /// added number
-  @protected
-  @visibleForTesting
   void onKey(NumpadKey key) {
     if (key == NumpadKey.delete) {
       _handleDelete();
