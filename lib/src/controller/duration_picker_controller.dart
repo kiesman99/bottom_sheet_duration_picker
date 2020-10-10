@@ -24,11 +24,17 @@ class DurationPickerController extends ValueNotifier<Duration> {
 
   @override
   Duration get value {
-    var seconds = _input[1] * 10 + _input[0];
-    var minutes = _input[3] * 10 + _input[2];
-    var hours = _input[5] * 10 + _input[4];
     return Duration(seconds: seconds, minutes: minutes, hours: hours);
   }
+
+  /// Returns the seconds of the selected duration
+  int get seconds => _input[1] * 10 + _input[0];
+
+  /// Returns the minutes of the selected duration
+  int get minutes => _input[3] * 10 + _input[2];
+
+  /// Returns the hours of the selected duration
+  int get hours => _input[5] * 10 + _input[4];
 
   List<int> _input = <int>[0, 0, 0, 0, 0, 0];
   int _inputPointer = -1;

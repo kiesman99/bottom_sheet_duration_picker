@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picky/src/globals/keys.dart';
 
 import '../../picky.dart';
 import '../controller/duration_picker_controller.dart';
@@ -39,8 +40,7 @@ import '../widgets/numpad.dart';
 /// set [isDismissible] to false.
 ///
 /// The [showDurationPickerBottomSheet] will return a [Duration]
-/// with the picked time of the user. It is delivered via a
-/// [Future].
+/// with the picked time of the user. It is delivered via a [Future].
 Future<Duration> showDurationPickerBottomSheet(
     {BuildContext context,
     BottomSheetDurationPickerThemeData themeData,
@@ -81,7 +81,9 @@ Future<Duration> showDurationPickerBottomSheet(
                   valueListenable: controller,
                   builder: (context, value, child) {
                     return Text(
-                      "${value.hours}h${value.minutes}m${value.seconds}s",
+                      "${controller.hours}h${controller.minutes}"
+                          "m${controller.seconds}s",
+                      key: pickerLabelKey,
                       style: themeData.pickedDurationTextStyle,
                     );
                   }),
