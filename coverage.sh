@@ -1,5 +1,5 @@
 #!/bin/sh
-./coverage_helper.sh bottom_sheet_duration_picker
+./coverage_helper.sh picky
 flutter test --no-pub --coverage --test-randomize-ordering-seed random
 rm ./test/coverage_helper_test.dart
 
