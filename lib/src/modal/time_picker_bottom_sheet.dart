@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:picky/src/globals/keys.dart';
 
 import '../../picky.dart';
 import '../controller/duration_picker_controller.dart';
+import '../globals/keys.dart';
 import '../theme/bottom_sheet_duration_picker_theme_data.dart';
 import '../widgets/numpad.dart';
 
@@ -82,7 +82,7 @@ Future<Duration> showDurationPickerBottomSheet(
                   builder: (context, value, child) {
                     return Text(
                       "${controller.hours}h${controller.minutes}"
-                          "m${controller.seconds}s",
+                      "m${controller.seconds}s",
                       key: pickerLabelKey,
                       style: themeData.pickedDurationTextStyle,
                     );
