@@ -11,6 +11,16 @@ import '../widgets/numpad.dart';
 class DurationPickerController extends ValueNotifier<Duration> {
   /// {@macro duration_picker_controller}
   DurationPickerController([Duration value = Duration.zero]) : super(value) {
+    this.value = value;
+  }
+
+  @override
+  Duration get value {
+    return Duration(seconds: seconds, minutes: minutes, hours: hours);
+  }
+
+  @override
+  set value(Duration value) {
     var seconds = value.inSeconds.remainder(60);
     var minutes = value.inMinutes.remainder(60);
     var hours = value.inHours.remainder(24);
@@ -20,11 +30,6 @@ class DurationPickerController extends ValueNotifier<Duration> {
     _input[3] = minutes ~/ 10;
     _input[4] = hours % 10;
     _input[5] = hours ~/ 10;
-  }
-
-  @override
-  Duration get value {
-    return Duration(seconds: seconds, minutes: minutes, hours: hours);
   }
 
   /// Returns the seconds of the selected duration

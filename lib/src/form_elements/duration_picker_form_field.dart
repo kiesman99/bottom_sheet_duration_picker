@@ -129,13 +129,11 @@ class DurationPickerFormField extends FormField<Duration> {
 
 class _DurationPickerFormFieldState extends FormFieldState<Duration> {
   DurationPickerController _controller;
-  DurationPickerController get _effectiveController =>
-      widget.controller ?? _controller;
 
   @override
   void didChange(Duration value) {
+    _controller.value = value;
     super.didChange(value);
-    if (_effectiveController.value != value) _effectiveController.value = value;
   }
 
   @override
@@ -144,8 +142,6 @@ class _DurationPickerFormFieldState extends FormFieldState<Duration> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
-      _controller = DurationPickerController();
-    }
+    _controller = widget.controller ?? DurationPickerController();
   }
 }
