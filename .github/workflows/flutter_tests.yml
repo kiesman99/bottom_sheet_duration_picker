@@ -17,9 +17,10 @@ jobs:
       - name: Run tests
         run: ./coverage.sh
       - name: Check Code Coverage
-        uses: ChicagoFlutter/lcov-cop@v1.0.0
+        uses: VGVentures/very-good-coverage@v1.1.0
         with:
           path: ./coverage/lcov.info
+          min_coverage: 80
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
