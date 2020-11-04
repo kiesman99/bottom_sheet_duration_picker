@@ -54,18 +54,19 @@ void main() {
 
       await tester.pumpAndSettle();
       expect(find.text('Test Picker'), findsOneWidget);
-      expect(find.text('1'), findsOneWidget);
-      expect(find.text('2'), findsOneWidget);
-      expect(find.text('3'), findsOneWidget);
-      expect(find.text('4'), findsOneWidget);
-      expect(find.text('5'), findsOneWidget);
-      expect(find.text('6'), findsOneWidget);
-      expect(find.text('7'), findsOneWidget);
-      expect(find.text('8'), findsOneWidget);
-      expect(find.text('9'), findsOneWidget);
-      expect(find.text('0'), findsOneWidget);
-      expect(find.byIcon(Icons.backspace), findsOneWidget);
-      expect(find.byIcon(Icons.check), findsOneWidget);
+      expect(find.text('00h00m00s'), findsOneWidget);
+      expect(button1Finder, findsOneWidget);
+      expect(button2Finder, findsOneWidget);
+      expect(button3Finder, findsOneWidget);
+      expect(button4Finder, findsOneWidget);
+      expect(button5Finder, findsOneWidget);
+      expect(button6Finder, findsOneWidget);
+      expect(button7Finder, findsOneWidget);
+      expect(button8Finder, findsOneWidget);
+      expect(button9Finder, findsOneWidget);
+      expect(button0Finder, findsOneWidget);
+      expect(buttonDeleteFinder, findsOneWidget);
+      expect(buttonCheckFinder, findsOneWidget);
     });
 
     testWidgets('tapping outside the Picker dismisses it by default',
@@ -185,6 +186,95 @@ void main() {
       await tester.drag(find.text('Test Picker'), const Offset(0.0, 150.0));
       await tester.pumpAndSettle();
       expect(find.text('Test Picker'), findsOneWidget);
+    });
+
+    testWidgets('Clicking numbers changes text', (tester) async {
+      BuildContext savedContext;
+      var button1Finder = find.text('1');
+      var button3Finder = find.text('3');
+      var button4Finder = find.text('4');
+      var result;
+
+      // load the widget
+      await tester.pumpWidget(MaterialApp(
+        home: Builder(
+          builder: (context) {
+            savedContext = context;
+            return Container();
+          },
+        ),
+      ));
+      expect(result, null);
+
+      await tester.pump();
+      expect(find.byKey(pickerLabelKey), findsNothing);
+
+      result = showDurationPickerBottomSheet(
+          context: savedContext, label: 'Test Picker');
+
+      await tester.pumpAndSettle();
+
+      await tester.tap(button1Finder);
+      await tester.tap(button3Finder);
+      await tester.tap(button4Finder);
+      await tester.pumpAndSettle();
+
+      expect(find.text('00h01m34s'), findsOneWidget);
+    });
+
+    testWidgets('Deleting numbes changes text accordingly', (tester) async {
+      BuildContext savedContext;
+      var button1Finder = find.text('1');
+      var button3Finder = find.text('3');
+      var button4Finder = find.text('4');
+      var buttonDeleteFinder = find.byIcon(Icons.backspace);
+      var result;
+
+      // load the widget
+      await tester.pumpWidget(MaterialApp(
+        home: Builder(
+          builder: (context) {
+            savedContext = context;
+            return Container();
+          },
+        ),
+      ));
+      expect(result, null);
+
+      await tester.pump();
+      expect(find.byKey(pickerLabelKey), findsNothing);
+
+      result = showDurationPickerBottomSheet(
+          context: savedContext, label: 'Test Picker');
+
+      await tester.pumpAndSettle();
+
+      await tester.tap(button1Finder);
+      await tester.tap(button3Finder);
+      await tester.tap(button4Finder);
+      await tester.pumpAndSettle();
+
+      expect(find.text('00h01m34s'), findsOneWidget);
+
+      await tester.tap(buttonDeleteFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.text('00h00m13s'), findsOneWidget);
+
+      await tester.tap(buttonDeleteFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.text('00h00m01s'), findsOneWidget);
+
+      await tester.tap(buttonDeleteFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.text('00h00m00s'), findsOneWidget);
+
+      await tester.tap(buttonDeleteFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.text('00h00m00s'), findsOneWidget);
     });
   });
 

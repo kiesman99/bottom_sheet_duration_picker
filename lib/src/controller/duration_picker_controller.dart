@@ -51,6 +51,7 @@ class DurationPickerController extends ValueNotifier<Duration> {
   void onKey(NumpadKey key) {
     if (key == NumpadKey.delete) {
       _handleDelete();
+      notifyListeners();
       return;
     }
     _handleNumPress(key);
@@ -70,7 +71,7 @@ class DurationPickerController extends ValueNotifier<Duration> {
   }
 
   void _handleDelete() {
-    if (_inputPointer != 0) {
+    if (_inputPointer != -1) {
       _input = [..._input.skip(1), 0];
       _inputPointer--;
     }

@@ -81,8 +81,9 @@ Future<Duration> showDurationPickerBottomSheet(
                   valueListenable: controller,
                   builder: (context, value, child) {
                     return Text(
-                      "${controller.hours}h${controller.minutes}"
-                      "m${controller.seconds}s",
+                      "${_padNumber(controller.hours)}h"
+                      "${_padNumber(controller.minutes)}m"
+                      "${_padNumber(controller.seconds)}s",
                       key: pickerLabelKey,
                       style: themeData.pickedDurationTextStyle,
                     );
@@ -97,4 +98,8 @@ Future<Duration> showDurationPickerBottomSheet(
           ],
         );
       });
+}
+
+String _padNumber(int number) {
+  return number.toString().padLeft(2, '0');
 }
