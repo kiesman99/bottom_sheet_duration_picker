@@ -77,4 +77,36 @@ void main() {
     expect(
         controller.value, equals(Duration(hours: 2, minutes: 13, seconds: 51)));
   });
+
+  test('using the setter updates the controllers value', () {
+    var controller = DurationPickerController();
+    expect(controller.input, equals([0, 0, 0, 0, 0, 0]));
+    expect(controller.value, equals(Duration.zero));
+
+    var updateDuration = Duration(hours: 15, minutes: 10, seconds: 07);
+    controller.value = updateDuration;
+    expect(controller.value, equals(updateDuration));
+    expect(controller.input, equals([7, 0, 0, 1, 5, 1]));
+  });
+
+  test('using setter after duration was picked changes the controllers value',
+      () {
+    var controller = DurationPickerController();
+    controller.onKey(NumpadKey.num1);
+    controller.onKey(NumpadKey.num3);
+
+    expect(controller.value, equals(Duration(seconds: 13)));
+    expect(controller.input, equals([3, 1, 0, 0, 0, 0]));
+
+    var updatedDuration = Duration(minutes: 21, seconds: 13);
+    controller.value = updatedDuration;
+    expect(controller.value, equals(updatedDuration));
+    expect(controller.input, equals([3, 1, 1, 2, 0, 0]));
+
+    controller.onKey(NumpadKey.num1);
+
+    expect(
+        controller.value, equals(Duration(hours: 2, minutes: 11, seconds: 31)));
+    expect(controller.input, equals([1, 3, 1, 1, 2, 0]));
+  });
 }

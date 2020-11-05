@@ -24,24 +24,29 @@ class DurationPickerController extends ValueNotifier<Duration> {
     var seconds = value.inSeconds.remainder(60);
     var minutes = value.inMinutes.remainder(60);
     var hours = value.inHours.remainder(24);
-    _input[0] = seconds % 10;
-    _input[1] = seconds ~/ 10;
-    _input[2] = minutes % 10;
-    _input[3] = minutes ~/ 10;
-    _input[4] = hours % 10;
-    _input[5] = hours ~/ 10;
+    input[0] = seconds % 10;
+    input[1] = seconds ~/ 10;
+    input[2] = minutes % 10;
+    input[3] = minutes ~/ 10;
+    input[4] = hours % 10;
+    input[5] = hours ~/ 10;
   }
 
   /// Returns the seconds of the selected duration
-  int get seconds => _input[1] * 10 + _input[0];
+  int get seconds => input[1] * 10 + input[0];
 
   /// Returns the minutes of the selected duration
-  int get minutes => _input[3] * 10 + _input[2];
+  int get minutes => input[3] * 10 + input[2];
 
   /// Returns the hours of the selected duration
-  int get hours => _input[5] * 10 + _input[4];
+  int get hours => input[5] * 10 + input[4];
 
-  List<int> _input = <int>[0, 0, 0, 0, 0, 0];
+  /// This is the input saved as an array
+  /// This variable should **only** be used
+  /// in tests.
+  @visibleForTesting
+  List<int> input = <int>[0, 0, 0, 0, 0, 0];
+
   int _inputPointer = -1;
 
   /// This function is used to process a keypress
@@ -67,17 +72,17 @@ class DurationPickerController extends ValueNotifier<Duration> {
     if (_inputPointer == -1 && key == NumpadKey.num0) {
       return;
     }
-    if (_inputPointer == _input.length - 1) {
+    if (_inputPointer == input.length - 1) {
       return;
     }
 
-    _input = [key.index, ..._input.take(_input.length - 1)];
+    input = [key.index, ...input.take(input.length - 1)];
     _inputPointer++;
   }
 
   void _handleDelete() {
     if (_inputPointer != -1) {
-      _input = [..._input.skip(1), 0];
+      input = [...input.skip(1), 0];
       _inputPointer--;
     }
   }
