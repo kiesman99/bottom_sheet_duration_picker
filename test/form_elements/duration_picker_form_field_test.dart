@@ -55,7 +55,6 @@ void main() {
       title: formFieldLabel,
       controller: controller,
     )));
-
     await tester.pump();
 
     await tester.tap(formFieldButtonFinder);
@@ -83,29 +82,105 @@ void main() {
     await tester.pumpWidget(_Wrapper(DurationPickerFormField(
       title: formFieldLabel,
       controller: controller,
+      autovalidateMode: AutovalidateMode.always,
       validator: (duration) {
         if (duration.compareTo(Duration(seconds: 27)) == 1) {
           return errorText;
         }
+
+        return "";
       },
     )));
-
     await tester.pump();
+
     expect(find.text(errorText), findsNothing);
     await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
     expect(find.text(errorText), findsNothing);
 
     await tester.tap(button2Finder);
     await tester.tap(button7Finder);
     await tester.tap(buttonCheckFinder);
     await tester.pumpAndSettle();
+    expect(find.text('00h00m27s'), findsOneWidget);
     expect(find.text(errorText), findsNothing);
+    expect(controller.value, equals(Duration(seconds: 27)));
 
+    await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
     await tester.tap(button2Finder);
     await tester.tap(button8Finder);
     await tester.tap(buttonCheckFinder);
     await tester.pumpAndSettle();
+    expect(find.text('00h00m28s'), findsOneWidget);
     expect(find.text(errorText), findsOneWidget);
+    expect(controller.value, equals(Duration(seconds: 28)));
+  });
+
+  testWidgets('form field uses custom formatter', (tester) async {
+    var controller = DurationPickerController();
+
+    await tester.pumpWidget(_Wrapper(DurationPickerFormField(
+      title: formFieldLabel,
+      controller: controller,
+      labelBuilder: (duration) => "${duration.inSeconds}s",
+    )));
+    await tester.pump();
+
+    expect(find.text('0s'), findsOneWidget);
+
+    await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(controller.value, equals(Duration.zero));
+
+    await tester.tap(button3Finder);
+    await tester.tap(button4Finder);
+    await tester.pumpAndSettle();
+
+    expect(controller.value, equals(Duration.zero));
+
+    await tester.tap(buttonCheckFinder);
+    await tester.pumpAndSettle();
+
+    expect(find.text('34s'), findsOneWidget);
+    expect(controller.value, equals(Duration(seconds: 34)));
+  });
+
+  testWidgets("onTap get's called by pressing on Form element", (tester) async {
+    var controller = DurationPickerController();
+    var tapCounter = 0;
+    await tester.pumpWidget(_Wrapper(DurationPickerFormField(
+      title: formFieldLabel,
+      controller: controller,
+      onTap: () => tapCounter++,
+    )));
+    await tester.pump();
+
+    expect(tapCounter, equals(0));
+
+    await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapCounter, equals(1));
+
+    await tester.tap(buttonCheckFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapCounter, equals(1));
+
+    await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapCounter, equals(2));
+
+    await tester.tap(button1Finder);
+    await tester.tap(button1Finder);
+    await tester.tap(buttonCheckFinder);
+    await tester.pumpAndSettle();
+
+    expect(controller.value, equals(Duration(seconds: 11)));
+    expect(tapCounter, equals(2));
   });
 }
 
