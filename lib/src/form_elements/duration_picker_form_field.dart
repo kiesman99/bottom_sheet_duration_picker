@@ -90,8 +90,7 @@ class DurationPickerFormField extends FormField<Duration> {
     this.onTap,
     this.controller,
     @required String title,
-  })  : assert(title.isNotEmpty),
-        super(
+  }) : super(
             onSaved: onSaved,
             validator: validator,
             initialValue: initialValue,
