@@ -25,15 +25,11 @@ class Numpad extends StatefulWidget {
   /// The ThemeData that defines the visual behavior of the [Numpad]
   final BottomSheetDurationPickerThemeData themeData;
 
-  /// The [FocusNode] that is used by by the keyboard.
-  final FocusNode focusNode;
-
   /// {@macro numpad}
   const Numpad({
     @required this.controller,
     @required this.context,
     this.themeData,
-    this.focusNode,
   })  : assert(controller != null, "Controller can not be null"),
         assert(context != null, "Context can not be null");
 
@@ -42,8 +38,9 @@ class Numpad extends StatefulWidget {
 }
 
 class _NumpadState extends State<Numpad> {
-  FocusNode _focusNode;
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+  DurationPickerController _controller;
+  DurationPickerController get _effectiveController =>
+      widget.controller ?? _controller;
 
   BottomSheetDurationPickerThemeData _themeData;
 
@@ -56,9 +53,6 @@ class _NumpadState extends State<Numpad> {
     if (widget.themeData == null) {
       _themeData = BottomSheetDurationPickerThemeData(
           dialpadTextStyle: TextStyle(fontSize: 12, color: Colors.black));
-    }
-    if (widget.focusNode == null) {
-      _focusNode = FocusNode();
     }
   }
 
@@ -77,89 +71,84 @@ class _NumpadState extends State<Numpad> {
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
-      focusNode: _effectiveFocusNode,
-      onKey: (event) {
-        // TODO: implement raw key handling
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                numpadButton('1', NumpadKey.num1),
-                numpadButton('2', NumpadKey.num2),
-                numpadButton('3', NumpadKey.num3),
-              ],
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              numpadButton('1', NumpadKey.num1),
+              numpadButton('2', NumpadKey.num2),
+              numpadButton('3', NumpadKey.num3),
+            ],
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                numpadButton('4', NumpadKey.num4),
-                numpadButton('5', NumpadKey.num5),
-                numpadButton('6', NumpadKey.num6),
-              ],
-            ),
+        ),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              numpadButton('4', NumpadKey.num4),
+              numpadButton('5', NumpadKey.num5),
+              numpadButton('6', NumpadKey.num6),
+            ],
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                numpadButton('7', NumpadKey.num7),
-                numpadButton('8', NumpadKey.num8),
-                numpadButton('9', NumpadKey.num9),
-              ],
-            ),
+        ),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              numpadButton('7', NumpadKey.num7),
+              numpadButton('8', NumpadKey.num8),
+              numpadButton('9', NumpadKey.num9),
+            ],
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(widget.context).pop(widget.controller.value);
-                    },
-                    child: Center(
-                      child: Icon(
-                        Icons.check,
-                        color: _effectiveThemeData.dialpadLeftIconColor,
-                      ),
+        ),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(widget.context)
+                        .pop(_effectiveController.value);
+                  },
+                  child: Center(
+                    child: Icon(
+                      Icons.check,
+                      color: _effectiveThemeData.dialpadLeftIconColor,
                     ),
                   ),
                 ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      widget.controller.onKey(NumpadKey.num0);
-                    },
-                    child: Center(
-                      child: Text("0",
-                          style: _effectiveThemeData.dialpadTextStyle),
-                    ),
+              ),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    _effectiveController.onKey(NumpadKey.num0);
+                  },
+                  child: Center(
+                    child:
+                        Text("0", style: _effectiveThemeData.dialpadTextStyle),
                   ),
                 ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      widget.controller.onKey(NumpadKey.delete);
-                    },
-                    child: Center(
-                      child: Icon(Icons.backspace,
-                          color: _effectiveThemeData.dialpadRightIconColor),
-                    ),
+              ),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    _effectiveController.onKey(NumpadKey.delete);
+                  },
+                  child: Center(
+                    child: Icon(Icons.backspace,
+                        color: _effectiveThemeData.dialpadRightIconColor),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
