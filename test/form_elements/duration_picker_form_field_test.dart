@@ -146,6 +146,42 @@ void main() {
     expect(find.text('34s'), findsOneWidget);
     expect(controller.value, equals(Duration(seconds: 34)));
   });
+
+  testWidgets("onTap get's called by pressing on Form element", (tester) async {
+    var controller = DurationPickerController();
+    var tapCounter = 0;
+    await tester.pumpWidget(_Wrapper(DurationPickerFormField(
+      title: formFieldLabel,
+      controller: controller,
+      onTap: () => tapCounter++,
+    )));
+    await tester.pump();
+
+    expect(tapCounter, equals(0));
+
+    await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapCounter, equals(1));
+
+    await tester.tap(buttonCheckFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapCounter, equals(1));
+
+    await tester.tap(formFieldButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(tapCounter, equals(2));
+
+    await tester.tap(button1Finder);
+    await tester.tap(button1Finder);
+    await tester.tap(buttonCheckFinder);
+    await tester.pumpAndSettle();
+
+    expect(controller.value, equals(Duration(seconds: 11)));
+    expect(tapCounter, equals(2));
+  });
 }
 
 class _Wrapper extends StatelessWidget {
