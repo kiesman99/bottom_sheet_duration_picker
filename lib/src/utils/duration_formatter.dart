@@ -94,10 +94,12 @@ class DurationFormatter {
   /// 127 minutes instead would print 02h07m00s, because
   /// 127 minutes are 02 hours and 07 minutes and 0 seconds.
   static String hoursMinutesSeconds(Duration duration) {
+    var twoDigitHours = _twoDigits(duration.inHours.remainder(24));
     var twoDigitMinutes = _twoDigits(duration.inMinutes.remainder(60));
     var twoDigitSeconds = _twoDigits(duration.inSeconds.remainder(60));
-    return "${_twoDigits(duration.inHours.remainder(24))}"
-        "h${twoDigitMinutes}m${twoDigitSeconds}s";
+    return "${twoDigitHours}h"
+        "${twoDigitMinutes}m"
+        "${twoDigitSeconds}s";
   }
 
   /// This function will turn a integer into a two integer string.
