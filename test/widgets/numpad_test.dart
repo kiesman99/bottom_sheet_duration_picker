@@ -20,6 +20,20 @@ void main() {
     );
   });
 
+  test('can not create numpad without controller', () {
+    expect(() {
+      // ignore: missing_required_param
+      Numpad(context: mockContext);
+    }, throwsAssertionError);
+  });
+
+  test('can not create numpad without context', () {
+    expect(() {
+      // ignore: missing_required_param
+      Numpad(controller: DurationPickerController());
+    }, throwsAssertionError);
+  });
+
   testWidgets('every button is provided in numpad', (tester) async {
     await tester.pumpWidget(testNumpad);
     final button1Finder = find.text('1');

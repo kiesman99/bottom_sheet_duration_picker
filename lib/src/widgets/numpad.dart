@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../picky.dart';
 import '../controller/duration_picker_controller.dart';
@@ -30,21 +29,19 @@ class Numpad extends StatefulWidget {
   final FocusNode focusNode;
 
   /// {@macro numpad}
-  const Numpad(
-      {this.controller,
-      this.themeData,
-      this.focusNode,
-      @required this.context});
+  const Numpad({
+    @required this.controller,
+    @required this.context,
+    this.themeData,
+    this.focusNode,
+  })  : assert(controller != null, "Controller can not be null"),
+        assert(context != null, "Context can not be null");
 
   @override
   _NumpadState createState() => _NumpadState();
 }
 
 class _NumpadState extends State<Numpad> {
-  DurationPickerController _controller;
-  DurationPickerController get _effectiveController =>
-      widget.controller ?? _controller;
-
   FocusNode _focusNode;
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
 
@@ -56,9 +53,6 @@ class _NumpadState extends State<Numpad> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
-      _controller = DurationPickerController();
-    }
     if (widget.themeData == null) {
       _themeData = BottomSheetDurationPickerThemeData(
           dialpadTextStyle: TextStyle(fontSize: 12, color: Colors.black));
@@ -72,7 +66,7 @@ class _NumpadState extends State<Numpad> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          _effectiveController.onKey(key);
+          widget.controller.onKey(key);
         },
         child: Center(
           child: Text(text, style: _effectiveThemeData.dialpadTextStyle),
@@ -85,7 +79,9 @@ class _NumpadState extends State<Numpad> {
   Widget build(BuildContext context) {
     return RawKeyboardListener(
       focusNode: _effectiveFocusNode,
-      onKey: _rawKeyListener,
+      onKey: (event) {
+        // TODO: implement raw key handling
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -127,8 +123,7 @@ class _NumpadState extends State<Numpad> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(widget.context)
-                          .pop(_effectiveController.value);
+                      Navigator.of(widget.context).pop(widget.controller.value);
                     },
                     child: Center(
                       child: Icon(
@@ -141,7 +136,7 @@ class _NumpadState extends State<Numpad> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      _effectiveController.onKey(NumpadKey.num0);
+                      widget.controller.onKey(NumpadKey.num0);
                     },
                     child: Center(
                       child: Text("0",
@@ -152,7 +147,7 @@ class _NumpadState extends State<Numpad> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      _effectiveController.onKey(NumpadKey.delete);
+                      widget.controller.onKey(NumpadKey.delete);
                     },
                     child: Center(
                       child: Icon(Icons.backspace,
@@ -166,10 +161,6 @@ class _NumpadState extends State<Numpad> {
         ],
       ),
     );
-  }
-
-  void _rawKeyListener(RawKeyEvent value) {
-    throw UnimplementedError();
   }
 }
 
